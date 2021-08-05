@@ -2,6 +2,8 @@ require('dotenv').config({ path: `${__dirname}/../.env` });
 import { Config } from './config';
 import { Bot } from './bot';
 import { Fetcher } from './fetcher';
+import { OfferService } from './offer.service';
+import { SHA1 } from 'crypto-js';
 
 if (!Config.bot.telegramToken) {
   throw new Error('Bot token not configured');
@@ -9,7 +11,46 @@ if (!Config.bot.telegramToken) {
 
 const bot = new Bot(Config.bot.telegramToken);
 const fetcher = new Fetcher();
+const offerService = new OfferService();
+
+const fetchInterval = setInterval(async () => {
+  if (bot.initialized) {
+    for (let attemptsLeft = Config.bot.maxFetchRetries; attemptsLeft >= 0; --attemptsLeft) {
+      try {
+        const offers = await fetcher.fetchObservables();
+        offers.forEach(async (offer) => {
+          if (!(await offerService.checkIfExists(SHA1(offer.title).toString()))) {
+            await offerService.create(offer);
+            await bot.sendOffer(offer);
+          }
+        });
+        break;
+      } catch (error) {
+        if (attemptsLeft === 0) {
+          if (Config.bot.debug) {
+            bot.sendMessage('No attempts left!');
+          }
+          break;
+        }
+
+        if (Config.bot.debug) {
+          bot.sendMessage(`Fetch failed. Retrying... Attempts left: ${attemptsLeft}`);
+        }
+      }
+    }
+  }
+}, Config.bot.fetchInterval);
 
 bot.launch();
-process.once('SIGINT', () => bot.stop('SIGINT'))
-process.once('SIGTERM', () => bot.stop('SIGTERM'))
+
+process.once('SIGINT', () => {
+  clearInterval(fetchInterval);
+  offerService.closeConnection();
+  bot.stop('SIGINT');
+});
+
+process.once('SIGTERM', () => {
+  clearInterval(fetchInterval);
+  offerService.closeConnection();
+  bot.stop('SIGTERM');
+});

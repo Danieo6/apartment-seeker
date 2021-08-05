@@ -3,3 +3,4 @@ dist
 .env
 data/proxy-list.json
 data/observables.json
+data/database.db

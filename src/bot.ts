@@ -4,6 +4,7 @@ import { Offer } from './interfaces/offer.interface';
 
 export class Bot extends Telegraf {
   private chatId: number;
+  public initialized = false;
 
   constructor(token: string) {
     super(token);
@@ -14,6 +15,7 @@ export class Bot extends Telegraf {
         const chat = ctx.update.message.chat as Chat.GroupChat;
         ctx.reply('Initializing...');
         this.chatId = chat.id;
+        this.initialized = true;
         ctx.reply(`Initialized for chat ${chat.title}`);
       } else {
         ctx.reply('This bot is already initialized on a different chat!');
