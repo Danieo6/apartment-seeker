@@ -1,6 +1,9 @@
 # Apartment Seeker
 
-A telegram bot searching for new flat rent offerts on OLX and OtoDom.
+A telegram bot searching for new flat rent offers on OLX and OtoDom.
+
+## 📦 Requirements
+* Node 14+
 
 ## 💡 Features
 
