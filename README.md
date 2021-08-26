@@ -4,6 +4,7 @@ A telegram bot searching for new flat rent offers on OLX and OtoDom.
 
 ## 📦 Requirements
 * Node 14+
+* TypeScript compiler
 
 ## 💡 Features
 
@@ -15,10 +16,12 @@ A telegram bot searching for new flat rent offers on OLX and OtoDom.
 
 ## 📖 How to use
 
-1. Instal all dependencies with `npm install`
+1. Instal all dependencies with `npm install`.
 2. Copy the contents of .env.example to .env and set all parameters.
-3. Build the project using `npm run build`
-4. Run the production code `npm run start`
+3. Build the project using `npm run build`.
+4. Run the production code `npm run start`.
+5. Add your bot instance to a Telegram chat.
+6. Use the command `/initialize` to run the bot on your chat.
 
 ## ⚙️ Config
 
