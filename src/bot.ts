@@ -9,13 +9,14 @@ export class Bot extends Telegraf {
   constructor(token: string) {
     super(token);
     this.chatId = 0;
+    console.info('Bot ready. Initialize it by writing /initialize on your chat.');
 
     this.command('initialize', (ctx) => {
       if (!this.chatId) {
         const chat = ctx.update.message.chat as Chat.GroupChat;
-        ctx.reply('Initializing...');
         this.chatId = chat.id;
         this.initialized = true;
+        console.info('Bot initialized!');
         ctx.reply(`Initialized for chat ${chat.title}`);
       } else {
         ctx.reply('This bot is already initialized on a different chat!');
