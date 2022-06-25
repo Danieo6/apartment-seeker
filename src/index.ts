@@ -32,6 +32,7 @@ const fetchInterval = setInterval(async () => {
 
         break;
       } catch (error) {
+        console.error(`Error: ${error}`)
         if (attemptsLeft === 0) {
           if (Config.bot.debug) {
             bot.sendMessage('No attempts left!');
