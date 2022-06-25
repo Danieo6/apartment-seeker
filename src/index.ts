@@ -19,7 +19,6 @@ const fetchInterval = setInterval(async () => {
     for (let attemptsLeft = Config.bot.maxFetchRetries; attemptsLeft >= 0; --attemptsLeft) {
       try {
         const offers = await fetcher.fetchObservables();
-
         for (const offer of offers) {
           if (!(await offerService.checkIfExists(SHA1(offer.title).toString()))) {
             await offerService.create(offer);
@@ -29,10 +28,10 @@ const fetchInterval = setInterval(async () => {
             console.info('Offer already fetched. Skipping...')
           }
         }
-
+        
         break;
       } catch (error) {
-        console.error(`Error: ${error}`)
+        console.error(error)
         if (attemptsLeft === 0) {
           if (Config.bot.debug) {
             bot.sendMessage('No attempts left!');
