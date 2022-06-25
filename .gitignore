@@ -4,3 +4,4 @@ dist
 data/proxy-list.json
 data/observables.json
 data/database.db
+ecosystem.config.js

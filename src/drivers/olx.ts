@@ -3,18 +3,19 @@ import { Offer } from '../interfaces/offer.interface';
 export const olx = ($: cheerio.Root) => {
   const offers: Offer[] = [];
 
-  $('.offer').each((index, el) => {
-    const url = $(el).find('.photo-cell a').attr('href');
+    $('div[data-testid="listing-grid"] > div').each((index, el) => {
+    const container = $(el).find('div[data-cy="l-card"] a');
+    const offerUrl = $(container).attr('href');
 
-    if (url) {
-      const title = $(el).find('.title-cell strong').text()?.trim() || 'Title not found';
-      const imageUrl = $(el).find('.photo-cell img').attr('src') || 'http://via.placeholder.com/1200x800?text=Image%20not%20found';
-      const price = $(el).find('.price').text()?.trim() || 'Not available';
-      const localization = $(el).find('.bottom-cell .breadcrumb:nth-child(1)').text()?.trim() || 'Not available';
+    if (offerUrl) {
+      const title = $(container).find('div[type="list"] div h6').text()?.trim() || 'Title not found'
+      const imageUrl = $(container).find('img').attr('src') || 'http://via.placeholder.com/1200x800?text=Image%20not%20found';
+      const localization = $(container).find('p[data-testid="location-date"]').text()?.trim() || 'Not available';
+      const price = $(container).find('p[data-testid="ad-price"]').text()?.trim() || 'Not available';
 
       offers.push({
         title,
-        url,
+        url: 'https://www.olx.pl' + offerUrl,
         imageUrl,
         localization,
         price,
