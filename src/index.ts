@@ -31,15 +31,12 @@ const fetchInterval = setInterval(async () => {
         break;
       } catch (error) {
         // Log failed request in console
-        console.error(error)
-        if (attemptsLeft === 0) {
-          if (Config.bot.debug) {
-            bot.sendMessage('No attempts left!');
-          }
-          break;
-        }
-
         if (Config.bot.debug) {
+          console.error(error)
+          if (attemptsLeft === 0) {
+            bot.sendMessage('No attempts left!');
+            break;
+          }
           bot.sendMessage(`Fetch failed. Retrying... Attempts left: ${attemptsLeft}`);
         }
       }
