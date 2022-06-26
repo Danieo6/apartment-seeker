@@ -3,7 +3,7 @@ import { Offer } from '../interfaces/offer.interface';
 export const otodom = ($: cheerio.Root) => {
   const offers: Offer[] = [];
 
-    $('div[data-cy="search.listing"] > ul > li').each((index, el) => {
+  $('div[data-cy="search.listing"] > ul > li').each((index, el) => {
     const container = $(el).find('a');
     const offerUrl = $(container).attr('href');
     if (offerUrl) {

@@ -3,7 +3,7 @@ import { Offer } from '../interfaces/offer.interface';
 export const olx = ($: cheerio.Root) => {
   const offers: Offer[] = [];
 
-    $('div[data-testid="listing-grid"] > div').each((index, el) => {
+  $('div[data-testid="listing-grid"] > div').each((index, el) => {
     const container = $(el).find('div[data-cy="l-card"] a');
     const offerUrl = $(container).attr('href');
 
