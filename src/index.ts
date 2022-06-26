@@ -28,9 +28,9 @@ const fetchInterval = setInterval(async () => {
             console.info('Offer already fetched. Skipping...')
           }
         }
-        
         break;
       } catch (error) {
+        // Log failed request in console
         console.error(error)
         if (attemptsLeft === 0) {
           if (Config.bot.debug) {
