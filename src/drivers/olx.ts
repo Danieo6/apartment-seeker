@@ -11,7 +11,7 @@ export const olx = ($: cheerio.Root) => {
       const title = $(container).find('div[type="list"] div h6').text()?.trim() || 'Title not found'
       // TODO: Implement proper way to handle img/src for the OLX. 
       // Current approach sometimes resulted into wrong div/img or missing images
-      const imageUrl = $(container).find('.css-gl6djm img').attr('src')?.split(';')[0] || 'http://via.placeholder.com/1200x800?text=Image%20not%20found';
+      const imageUrl = $(container).find('.css-gl6djm img').attr('srcset')?.split(';')[0] || 'http://via.placeholder.com/1200x800?text=Image%20not%20found';
       const localization = $(container).find('p[data-testid="location-date"]').text()?.split(' - ')[0].trim() || 'Not available';
       const price = $(container).find('p[data-testid="ad-price"]').text()?.trim() || 'Not available';
       // Correct handling of the otodom.pl ads posted on olx.pl
