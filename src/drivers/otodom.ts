@@ -3,15 +3,14 @@ import { Offer } from '../interfaces/offer.interface';
 export const otodom = ($: cheerio.Root) => {
   const offers: Offer[] = [];
 
-  $('div[data-cy="frontend.search.listing"] > ul > li').each((index, el) => {
+  $('div[data-cy="search.listing"] > ul > li').each((index, el) => {
     const container = $(el).find('a');
     const offerUrl = $(container).attr('href');
-
     if (offerUrl) {
-      const title = $(container).find('article h3').attr('title') || 'Title not found'
-      const imageUrl = $(container).find('aside img').attr('src') || 'http://via.placeholder.com/1200x800?text=Image%20not%20found';
-      const localization = $(container).find('article .css-17o293g').text()?.trim() || 'Not available';
-      const price = $(container).find('article .css-lk61n3').text()?.trim() || 'Not available';
+      const title = $(container).find('article div h3').text()?.trim() || 'Title not found'
+      const imageUrl = $(container).find('aside picture source').attr('srcset')?.split(';')[0] || 'http://via.placeholder.com/1200x800?text=Image%20not%20found';
+      const localization = $(container).find('article p span[class="css-17o293g es62z2j9"]').text()?.trim() || 'Not available';
+      const price = $(container).find('article div span').first().text() || 'Not available';
 
       offers.push({
         title,
@@ -20,7 +19,7 @@ export const otodom = ($: cheerio.Root) => {
         localization,
         price,
       });
-    } 
+    }
   });
 
   return offers;
